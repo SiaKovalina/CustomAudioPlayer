@@ -1,7 +1,7 @@
 [{
   "id":"1",
   "title": "Arabian horse",
-  "src": "/CustomAudioPlayer/blob/master/audiodb/Arabian_horse.mp3"
+  "src": "./audiodb/Arabian_horse.mp3"
 },
 {
   "id": "2",
