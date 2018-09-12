@@ -52,6 +52,9 @@ button {
 button i {
   font-size: 36px;
   color: #c4c4c4;
+}
+button:disabled i{
+  color: #e6e6e6;
 } 
 #playlist{
   color: #555;

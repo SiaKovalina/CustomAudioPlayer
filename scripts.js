@@ -116,7 +116,6 @@ function initPlayer() {
       document.querySelector('.active').classList.remove('active');
       audio.preload = 'metadata';
       audio.play();
-      let songs = Array.from(document.querySelectorAll('#playlist li'));
       songs.forEach(song => {
         if (song.dataTrackId == id) {
           song.classList.add('active');

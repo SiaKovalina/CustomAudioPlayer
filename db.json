@@ -1,12 +1,12 @@
 [{
   "id":"1",
   "title": "Arabian horse",
-  "src": "/audiodb/Arabian_horse.mp3"
+  "src": "https://github.com/SiaKovalina/CustomAudioPlayer/blob/master/audiodb/Arabian_horse.mp3"
 },
 {
   "id": "2",
   "title": "Be with me",
-  "src": "/audiodb/GusGus_-_Be_With_Me_Arabian_Horse_Album[www.MP3Fiber.com].mp3"
+  "src": "/Users/SiaKovalina/projects/CustomPlayer/audiodb/Be_With_Me.mp3"
 },
 {
   "id": "3",
