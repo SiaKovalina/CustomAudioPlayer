@@ -1,30 +1,30 @@
 [{
   "id":"1",
   "title": "Arabian horse",
-  "src": "https://github.com/SiaKovalina/CustomAudioPlayer/blob/master/audiodb/Arabian_horse.mp3"
+  "src": "/CustomAudioPlayer/blob/master/audiodb/Arabian_horse.mp3"
 },
 {
   "id": "2",
   "title": "Be with me",
-  "src": "/Users/SiaKovalina/projects/CustomPlayer/audiodb/Be_With_Me.mp3"
+  "src": "./audiodb/Be_With_Me.mp3"
 },
 {
   "id": "3",
   "title": "Benched",
-  "src": "/audiodb/GusGus_-_Benched_Arabian_Horse_Album[www.MP3Fiber.com].mp3"
+  "src": "./audiodb/Benched.mp3"
 },
 {
   "id": "4",
   "title": "Changes come",
-  "src": "/audiodb/GusGus_-_Changes_Come_Arabian_Horse_Album[www.MP3Fiber.com].mp3"
+  "src": "./audiodb/Changes_come.mp3"
 },
 {
   "id": "5",
   "title": "Magnified love",
-  "src": "/audiodb/GusGus_-_Magnified_Love_Arabian_Horse_Album[www.MP3Fiber.com].mp3"
+  "src": "./audiodb/Magnified_love.mp3"
 },
 {
   "id": "6",
   "title": "Over",
-  "src": "/audiodb/GusGus_-_Over_Arabian_Horse_Album[www.MP3Fiber.com].mp3"
+  "src": "./audiodb/Over.mp3"
 }]
