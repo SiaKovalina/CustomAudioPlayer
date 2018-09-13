@@ -33,6 +33,7 @@ function initPlayer() {
 
   function loadEventListeners() {
     audio.addEventListener('timeupdate', updateprogressBar);
+    audio.addEventListener('durationchange', checkTrackIfDisable)
     playBtn.addEventListener('click', togglePlay);
     muteBtn.addEventListener('click', mute);
     progressBar.addEventListener('click', seek);
@@ -42,6 +43,7 @@ function initPlayer() {
     nextBtn.addEventListener('click', nextTrack);
   }
 
+  
   //Autoupdate progress bar position
   function updateprogressBar() {
     progressBarFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
@@ -49,7 +51,7 @@ function initPlayer() {
       nextTrack();
     }
   }
-
+  
   //Seek progress bar position 
   function seek(event) {
     if (event.target == progressBar) {
@@ -59,7 +61,7 @@ function initPlayer() {
     }
     updateprogressBar();
   }
-
+  
   //Play/Pause button
   function togglePlay() {
     if (audio.paused) {
@@ -70,7 +72,7 @@ function initPlayer() {
       playBtn.firstElementChild.className = 'icon ion-md-play';
     }
   }
-
+  
   //Mute button
   function mute() {
     if (!audio.muted) {
@@ -81,7 +83,7 @@ function initPlayer() {
       muteBtn.firstElementChild.className = 'icon ion-md-volume-high';
     }
   }
-
+  
   //Change track in playlist
   function changeTrack(event) {
     if (playBtn.firstElementChild.className = 'icon ion-md-play') {
@@ -94,18 +96,15 @@ function initPlayer() {
     document.querySelector('.active').classList.remove('active');
     event.target.classList.add('active');
   }
-
+  
   //Volume slider
   function changeVolume() {
     audio.volume = volumeSlider.value;
   }
-
+  
   //Previous button
   function previousTrack(event) {
     let songs = Array.from(document.querySelectorAll('#playlist li'));
-    if (document.querySelector('.active').dataTrackId == 1) {
-      prevBtn.disabled = true;
-    } else {
       let id;
       if (playBtn.firstElementChild.className = 'icon ion-md-play') {
         playBtn.firstElementChild.className = 'icon ion-md-pause';
@@ -122,14 +121,10 @@ function initPlayer() {
         }
       })
     }
-  }
-
-  //Next button
-  function nextTrack(event) {
-    let songs = Array.from(document.querySelectorAll('#playlist li'));
-    if (document.querySelector('.active').dataTrackId == songs.length) {
-      nextBtn.disabled = true;
-    } else {
+    
+    //Next button
+    function nextTrack(event) {
+      let songs = Array.from(document.querySelectorAll('#playlist li'));
       let id;
       if (playBtn.firstElementChild.className = 'icon ion-md-play') {
         playBtn.firstElementChild.className = 'icon ion-md-pause';
@@ -146,5 +141,21 @@ function initPlayer() {
         }
       })
     }
+    
+    function checkTrackIfDisable() {
+      let songs = Array.from(document.querySelectorAll('#playlist li'));
+      songs.forEach(song => {
+        let audioSrcArr = song.audioSrc.split('/');
+        let audioSrc = audioSrcArr[audioSrcArr.length-1];
+        if (audio.currentSrc.includes(audioSrc) && song.dataTrackId == songs.length) {
+          nextBtn.disabled = true;
+        } else if (audio.currentSrc.includes(audioSrc) && song.dataTrackId == 1) {
+          console.log('It\'s first track');
+          prevBtn.disabled = true;
+        } else {
+          nextBtn.disabled = false;
+          prevBtn.disabled = false;
+        }
+      })
+    }
   }
-}
