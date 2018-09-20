@@ -1,4 +1,4 @@
-// In production I would use Webpack4, Sass insted of plain CSS, amaybe ogg format for old forefox users. Transpile code with Babel if needed. 
+// In production I would use Webpack4, Sass insted of plain CSS, maybe ogg format for old forefox users. Transpile code with Babel if needed. 
 window.addEventListener('DOMContentLoaded', initPlayer);
 
 function initPlayer() {
@@ -8,10 +8,12 @@ function initPlayer() {
   const prevBtn = document.getElementById('btn-prev');
   const nextBtn = document.getElementById('btn-next');
   const muteBtn = document.getElementById('mutebtn');
-  const progressBarFill = document.querySelector('#progressbar-fill');
+  const progressBarFill = document.getElementById('progressbar-fill');
   const progressBar = document.getElementById('progressbar')
   const volumeSlider = document.getElementById('volumeslider');
   const playlist = document.getElementById('playlist');
+  const playback = document.getElementById('playback'); 
+  const duration = document.getElementById('duration');
 
   getSongs();
 
@@ -21,19 +23,23 @@ function initPlayer() {
     let response = await fetch('db.json');
     let songsArr = await response.json();
     songsArr.map(song => {
+      let {title, src, id} = song;
       let li = document.createElement('li');
-      li.innerHTML = `${song.title}`;
-      li.audioSrc = song.src;
-      li.dataTrackId = song.id;
+      li.innerHTML = title;
+      li.audioSrc = src;
+      li.dataTrackId = id;
       playlist.appendChild(li);
     });
+
+    //Set first track to be the first one playing by default
     audio.src = songsArr[0].src;
+    audio.preload;
     playlist.children[0].classList += 'active';
+    playback.innerHTML = '00 : 00';
   }
 
   function loadEventListeners() {
-    audio.addEventListener('timeupdate', updateprogressBar);
-    audio.addEventListener('durationchange', checkTrackIfDisable)
+    audio.addEventListener('timeupdate', updatePlayback);
     playBtn.addEventListener('click', togglePlay);
     muteBtn.addEventListener('click', mute);
     progressBar.addEventListener('click', seek);
@@ -41,12 +47,22 @@ function initPlayer() {
     playlist.addEventListener('click', changeTrack);
     prevBtn.addEventListener('click', previousTrack);
     nextBtn.addEventListener('click', nextTrack);
+    audio.addEventListener('loadedmetadata', () => { displayTime(audio.duration, duration) });
   }
 
+  //Display playback and duration time
+  function displayTime (time, element) {
+    let sec = Math.floor(time % 60);
+    let min = Math.floor(time / 60);
+    sec = sec < 10 ? '0' + sec : sec;
+    min = min < 10 ? '0' + min : min;
+    element.innerHTML = `${min} : ${sec}`;
+  }
   
   //Autoupdate progress bar position
-  function updateprogressBar() {
+  function updatePlayback() {
     progressBarFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+    displayTime(audio.currentTime, playback);
     if (audio.ended) {
       nextTrack();
     }
@@ -59,7 +75,7 @@ function initPlayer() {
     } else if (event.target == progressBarFill) {
       audio.currentTime = event.offsetX / event.target.parentElement.offsetWidth * audio.duration;
     }
-    updateprogressBar();
+    updatePlayback();
   }
   
   //Play/Pause button
@@ -84,7 +100,7 @@ function initPlayer() {
     }
   }
   
-  //Change track in playlist
+  //Change track in playlist on user click
   function changeTrack(event) {
     if (playBtn.firstElementChild.className = 'icon ion-md-play') {
       playBtn.firstElementChild.className = 'icon ion-md-pause';
@@ -124,7 +140,7 @@ function initPlayer() {
     
     //Next button
     function nextTrack(event) {
-      let songs = Array.from(document.querySelectorAll('#playlist li'));
+      const songs = Array.from(document.querySelectorAll('#playlist li'));
       let id;
       if (playBtn.firstElementChild.className = 'icon ion-md-play') {
         playBtn.firstElementChild.className = 'icon ion-md-pause';
@@ -142,20 +158,4 @@ function initPlayer() {
       })
     }
     
-    function checkTrackIfDisable() {
-      let songs = Array.from(document.querySelectorAll('#playlist li'));
-      songs.forEach(song => {
-        let audioSrcArr = song.audioSrc.split('/');
-        let audioSrc = audioSrcArr[audioSrcArr.length-1];
-        if (audio.currentSrc.includes(audioSrc) && song.dataTrackId == songs.length) {
-          nextBtn.disabled = true;
-        } else if (audio.currentSrc.includes(audioSrc) && song.dataTrackId == 1) {
-          console.log('It\'s first track');
-          prevBtn.disabled = true;
-        } else {
-          nextBtn.disabled = false;
-          prevBtn.disabled = false;
-        }
-      })
-    }
   }

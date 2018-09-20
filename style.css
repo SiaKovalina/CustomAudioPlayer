@@ -52,9 +52,6 @@ button {
 button i {
   font-size: 36px;
   color: #c4c4c4;
-}
-button:disabled i{
-  color: #e6e6e6;
 } 
 #playlist{
   color: #555;
@@ -66,4 +63,9 @@ button:disabled i{
 }
 .active {
   background: rgb(206, 206, 206);
+}
+.playback__outer {
+  display: flex;
+  justify-content: space-between;
+  color: #555;
 }
